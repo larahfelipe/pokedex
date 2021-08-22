@@ -1,0 +1,61 @@
+<p align="center">
+  <a href="https://github.com/felpshn/pokedex">
+    <img src="https://github.com/felpshn/pokedex/blob/master/public/pokemon-logo.png">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/felpshn/pokedex/releases/">
+    <img src="https://img.shields.io/static/v1?label=version&message=1.x&color=FFC947">
+  </a>
+  <a href="https://github.com/felpshn/pokedex/blob/master/LICENSE">
+    <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=FFC947">
+  </a>
+</p>
+
+## Overview
+
+A simple Pokédex built with React.js, Next.js, TypeScript and Chakra UI.
+
+### Technologies used
+
+- [React.js](https://reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Chakra UI](https://chakra-ui.com/)
+- [Testing Library](https://testing-library.com/)
+- [Jest](https://jestjs.io/)
+- [Axios](https://axios-http.com/)
+- [PokeAPI](https://pokeapi.co/)
+
+## How to use
+
+Clone this repository and cd into the project's folder:
+
+```elm
+git clone https://github.com/felpshn/pokedex.git && cd pokedex
+```
+
+After that, we'll need to install the project's dependencies:
+
+```elm
+-- Using npm:
+npm install
+
+-- Using yarn:
+yarn
+```
+
+Finally, we can run the app:
+
+```elm
+-- Using npm:
+npm start
+
+-- Using yarn:
+yarn dev
+```
+
+## Final considerations
+
+> This project is licensed under a [MIT License](https://github.com/felpshn/pokedex/blob/master/LICENSE)
