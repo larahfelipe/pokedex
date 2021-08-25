@@ -16,7 +16,7 @@ export interface IPokemonProps {
 export interface IPokemonEssentials {
   name: string;
   url: string;
-  pokedexIndex: number;
+  pokemonDexIdx: number;
   artworkUrl: string;
 }
 

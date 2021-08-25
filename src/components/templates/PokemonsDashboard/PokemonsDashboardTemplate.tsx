@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-import { usePokemons } from '@/hooks/Pokemon';
+import { usePokemons } from '@/hooks/usePokemons';
 import Loader from '@/components/shared/Loader';
 import PokemonsDashboard from '@/components/base/PokemonsDashboard';
 

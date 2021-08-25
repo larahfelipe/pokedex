@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 
 import { usePokemons } from './';
 
-jest.mock('@/hooks/Pokemon', () => ({
+jest.mock('@/hooks/usePokemons', () => ({
   usePokemons: jest.fn().mockReturnValue({
     getPokemons: jest.fn().mockReturnValue([
       {
