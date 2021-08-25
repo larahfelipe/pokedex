@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 
-export const pallete = {
+export const palette = {
   background: '#e1e5ea',
   lightGray: '#e8e8e8',
   darkBlue: '#02475e',
@@ -17,8 +17,8 @@ export const customTheme = extendTheme({
         boxSizing: 'border-box'
       },
       'html, body': {
-        bgColor: pallete.background,
-        color: pallete.darkBlue,
+        bgColor: palette.background,
+        color: palette.darkBlue,
         lineHeight: 0
       }
     }

@@ -3,10 +3,15 @@ import { usePalette } from 'react-palette';
 import { Flex, Text, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 
-import { pallete } from '@/styles/theme';
+import { palette } from '@/styles/theme';
 import Loader from '@/components/shared/Loader';
+import { IPokemonEssentials } from '@/types';
 
-function PokemonBasicCard({ pokemonDexIndex, artworkUrl, name }: any) {
+function PokemonBasicCard({
+  pokemonDexIdx,
+  artworkUrl,
+  name
+}: IPokemonEssentials) {
   const [isImgLoading, setIsImgLoading] = useState(true);
   const { data: mainColor } = usePalette(artworkUrl);
 
@@ -15,8 +20,8 @@ function PokemonBasicCard({ pokemonDexIndex, artworkUrl, name }: any) {
       w="100%"
       h="15rem"
       m="38.5px"
-      flexDir="column"
-      border={`2px solid ${pallete.lightGray}`}
+      direction="column"
+      border={`2px solid ${palette.lightGray}`}
       borderRadius="8px"
       bg={mainColor.lightVibrant}
       cursor="pointer"
@@ -31,19 +36,19 @@ function PokemonBasicCard({ pokemonDexIndex, artworkUrl, name }: any) {
         w="2.5rem"
         h="1.5rem"
         m="-1px"
-        flexDir="row"
-        alignItems="center"
-        justifyContent="center"
+        direction="row"
+        align="center"
+        justify="center"
         position="relative"
         fontWeight="600"
         borderRadius="5px 0 5px 0"
-        bg={pallete.lightGray}
+        bg={palette.lightGray}
       >
-        <Text>{pokemonDexIndex}</Text>
+        <Text>{pokemonDexIdx}</Text>
       </Flex>
-      <Flex w="100%" flexDir="row" justifyContent="center">
+      <Flex w="100%" justify="center">
         {isImgLoading && <Loader />}
-        <Link href={`/pokemon/${pokemonDexIndex}`} passHref={true}>
+        <Link href={`/pokemon/${pokemonDexIdx}`} passHref={true}>
           <Image
             src={artworkUrl}
             alt=""
@@ -55,9 +60,9 @@ function PokemonBasicCard({ pokemonDexIndex, artworkUrl, name }: any) {
       <Flex
         w="100%"
         h="3rem"
-        justifyContent="center"
-        alignItems="center"
-        bg={pallete.lightGray}
+        justify="center"
+        align="center"
+        bg={palette.lightGray}
       >
         <Text fontWeight="600">{name.toUpperCase()}</Text>
       </Flex>
