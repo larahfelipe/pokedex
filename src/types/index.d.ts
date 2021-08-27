@@ -1,7 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode, Dispatch, SetStateAction, MutableRefObject } from 'react';
 
 export interface IPokemonsProviderProps {
   children: ReactNode;
+}
+
+export interface IPokemonDetailsCardTemplateProps {
+  pokemonId: string;
 }
 
 export interface IPokemonProps {
@@ -10,22 +14,28 @@ export interface IPokemonProps {
   getPokemons: () => Promise<void>;
   getPokemonStatsById: (id: string | number) => Promise<void>;
   isFirstLoad: boolean;
+  setIsFirstLoad: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
+  renderCount: MutableRefObject<number>;
 }
 
 export interface IPokemonEssentials {
   name: string;
+  dexIndex: number;
   url: string;
-  pokemonDexIdx: number;
   artworkUrl: string;
 }
 
-export interface IPokemonRawStats extends IPokemonEssentials {
+export interface IPokemonRawStats {
+  name: string;
+  id: number;
+  artworkUrl: string;
   height: number;
   weight: number;
   capture_rate: number;
   gender_rate: number;
   base_happiness: number;
+  base_experience: number;
   hatch_counter: number;
   is_legendary: boolean;
   is_mythical: boolean;
@@ -56,18 +66,13 @@ export interface IPokemonRawStats extends IPokemonEssentials {
   habitat: {
     name: string;
   };
-  flavor_text_entries: [
-    {
-      flavor_text: string;
-      language: {
-        name: string;
-      };
-    }
-  ];
 }
 
 export interface IPokemonParsedStats {
+  name: string;
   hp: number;
+  dexIndex: number;
+  artworkUrl: string;
   attack: number;
   defense: number;
   speed: number;
@@ -79,11 +84,11 @@ export interface IPokemonParsedStats {
   weight: number;
   genderRatioFemale: number;
   genderRatioMale: number;
-  flavorTextFiltered: any;
   captureRate: number;
   isLegendary: boolean;
   isMythical: boolean;
   hatchCounter: number;
   baseHappiness: number;
+  baseExperience: number;
   habitat: string;
 }

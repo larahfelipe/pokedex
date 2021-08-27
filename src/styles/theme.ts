@@ -2,7 +2,9 @@ import { extendTheme } from '@chakra-ui/react';
 
 export const palette = {
   background: '#e1e5ea',
+  border: '#ccc',
   lightGray: '#e8e8e8',
+  darkGray: '#e7e5e5',
   darkBlue: '#02475e',
   lightRed: '#f05454',
   darkRed: '#ce1212'

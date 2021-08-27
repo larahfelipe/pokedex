@@ -1,36 +1,39 @@
 import { IPokemonRawStats, IPokemonParsedStats } from '@/types';
 
 export default function parsePokemonData({
+  name: rawName,
+  id: dexIndex,
   stats,
   types: rawTypes,
   abilities: rawAbilities,
   height: rawHeight,
   weight: rawWeight,
   gender_rate,
-  flavor_text_entries,
   capture_rate: captureRate,
   is_legendary: isLegendary,
   is_mythical: isMythical,
   hatch_counter: hatchCounter,
   base_happiness: baseHappiness,
+  base_experience: baseExperience,
   habitat: rawHabitat
 }: IPokemonRawStats) {
+  const capitalizeFirstLetter = (value: string) => {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  };
+
   let hp = 0;
   let attack = 0;
   let defense = 0;
   let speed = 0;
   let specialAttack = 0;
   let specialDefense = 0;
-
-  function capitalizeFirstLetter(value: string) {
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  }
-
-  const height = Math.round((rawHeight * 0.328084 + 0.00001) * 100) / 100;
+  const name = rawName.toUpperCase();
+  const artworkUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${dexIndex}.png`;
   const weight = Math.round((rawWeight * 0.220462 + 0.00001) * 100) / 100;
+  const height = Math.round((rawHeight * 0.328084 + 0.00001) * 100) / 100;
+  const habitat = capitalizeFirstLetter(rawHabitat.name);
   const genderRatioFemale = 12.5 * gender_rate;
   const genderRatioMale = 12.5 * (8 - gender_rate);
-  const habitat = capitalizeFirstLetter(rawHabitat.name);
 
   const types = rawTypes.map(({ type }) => {
     return capitalizeFirstLetter(type.name);
@@ -42,12 +45,6 @@ export default function parsePokemonData({
       .split('-')
       .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
       .join(' ');
-  });
-
-  const flavorTextFiltered = flavor_text_entries.some((txt) => {
-    if (txt.language.name === 'en') {
-      return txt.flavor_text;
-    } else return '';
   });
 
   stats.forEach((stat) => {
@@ -76,6 +73,9 @@ export default function parsePokemonData({
   });
 
   return {
+    name,
+    dexIndex,
+    artworkUrl,
     hp,
     attack,
     defense,
@@ -88,12 +88,12 @@ export default function parsePokemonData({
     weight,
     genderRatioFemale,
     genderRatioMale,
-    flavorTextFiltered,
     captureRate,
     isLegendary,
     isMythical,
     hatchCounter,
     baseHappiness,
+    baseExperience,
     habitat
   } as IPokemonParsedStats;
 }

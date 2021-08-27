@@ -12,7 +12,7 @@ function Loader({ fullWidth }: LoaderProps) {
       <Spinner
         thickness="5px"
         speed="0.65s"
-        emptyColor="gray.200"
+        emptyColor="gray.100"
         color={palette.darkRed}
         size="xl"
       />
