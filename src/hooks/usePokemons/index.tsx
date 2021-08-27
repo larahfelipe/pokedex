@@ -23,16 +23,16 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [pokemons, setPokemons] = useState([] as IPokemonEssentials[]);
   const [pokemon, setPokemon] = useState({} as IPokemonParsedStats);
-  const renderCount = useRef(80);
+  const renderCount = useRef(50);
 
   const getPokemons = useCallback(async () => {
     setIsLoading(true);
     await axios
       .get(`https://pokeapi.co/api/v2/pokemon?limit=${renderCount.current}`)
       .then((res: AxiosResponse) => {
-        const pokemonsPayload: IPokemonEssentials[] = res.data.results;
-        setPokemons(pokemonsPayload);
-        renderCount.current += 80;
+        const pokemonsData: IPokemonEssentials[] = res.data.results;
+        setPokemons(pokemonsData);
+        renderCount.current += 50;
       })
       .catch((err: AxiosError) => {
         console.error(err);
@@ -78,7 +78,9 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
         getPokemons,
         getPokemonStatsById,
         isFirstLoad,
-        isLoading
+        setIsFirstLoad,
+        isLoading,
+        renderCount
       }}
     >
       {children}
