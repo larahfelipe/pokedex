@@ -7,11 +7,7 @@ import { palette } from '@/styles/theme';
 import Loader from '@/components/shared/Loader';
 import { IPokemonEssentials } from '@/types';
 
-function PokemonBasicCard({
-  pokemonDexIdx,
-  artworkUrl,
-  name
-}: IPokemonEssentials) {
+function PokemonBasicCard({ name, dexIndex, artworkUrl }: IPokemonEssentials) {
   const [isImgLoading, setIsImgLoading] = useState(true);
   const { data: mainColor } = usePalette(artworkUrl);
 
@@ -23,7 +19,7 @@ function PokemonBasicCard({
       direction="column"
       border={`2px solid ${palette.lightGray}`}
       borderRadius="8px"
-      bg={mainColor.lightVibrant}
+      bgGradient={`linear(to-b, ${mainColor.lightVibrant}, ${palette.lightGray})`}
       cursor="pointer"
       boxShadow="rgba(0, 0, 0, 0.15) 0px 2px 8px"
       transition="all .2s"
@@ -44,11 +40,11 @@ function PokemonBasicCard({
         borderRadius="5px 0 5px 0"
         bg={palette.lightGray}
       >
-        <Text>{pokemonDexIdx}</Text>
+        <Text>{dexIndex}</Text>
       </Flex>
       <Flex w="100%" justify="center">
         {isImgLoading && <Loader />}
-        <Link href={`/pokemon/${pokemonDexIdx}`} passHref={true}>
+        <Link href={`/pokemon/${dexIndex}`} passHref={true}>
           <Image
             src={artworkUrl}
             alt=""
@@ -64,7 +60,7 @@ function PokemonBasicCard({
         align="center"
         bg={palette.lightGray}
       >
-        <Text fontWeight="600">{name.toUpperCase()}</Text>
+        <Text fontWeight="600">{name}</Text>
       </Flex>
     </Flex>
   );
