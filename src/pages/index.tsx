@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import NavBar from '@/components/shared/NavBar';
+import MenuBar from '@/components/shared/MenuBar';
 import PokemonsDashboardTemplate from '@/components/templates/PokemonsDashboard/PokemonsDashboardTemplate';
 
 function Home() {
@@ -9,7 +9,7 @@ function Home() {
       <Head>
         <title>Pokédex | Find any pokémon you want</title>
       </Head>
-      <NavBar />
+      <MenuBar />
       <PokemonsDashboardTemplate />
     </>
   );
