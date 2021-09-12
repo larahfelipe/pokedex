@@ -15,7 +15,7 @@
 
 ## Overview
 
-A simple Pokédex built with React.js, Next.js, TypeScript and Chakra UI.
+A simple Pokédex built with React.js, Next.js, TypeScript and Chakra UI, following the Atomic Design pattern.
 
 ### Technologies used
 

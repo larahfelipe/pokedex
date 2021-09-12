@@ -1,12 +1,9 @@
 import { Flex, Spinner } from '@chakra-ui/react';
 
 import { palette } from '@/styles/theme';
+import { ILoaderProps } from '@/types';
 
-type LoaderProps = {
-  fullWidth?: boolean;
-};
-
-function Loader({ fullWidth }: LoaderProps) {
+function Loader({ fullWidth }: ILoaderProps) {
   return (
     <Flex h={fullWidth ? '100vh' : '11rem'} align="center" justify="center">
       <Spinner

@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import MenuBar from '@/components/shared/MenuBar';
-import PokemonDetailsCardTemplate from '@/components/templates/PokemonDetailsCard/PokemonDetailsCardTemplate';
+import MenuBar from '@/components/organisms/MenuBar';
+import PokemonProfileCardTemplate from '@/components/templates/PokemonProfileCardTemplate';
 
 function PokemonPage() {
   const router = useRouter();
@@ -14,7 +14,7 @@ function PokemonPage() {
       </Head>
       <MenuBar />
       {!!router.query.pokemonId && (
-        <PokemonDetailsCardTemplate
+        <PokemonProfileCardTemplate
           pokemonId={String(router.query.pokemonId)}
         />
       )}
