@@ -101,7 +101,7 @@ describe('usePokemons', () => {
 
     try {
       await result.current.getPokemons();
-    } catch (err) {
+    } catch (err: any) {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toBe(
         'Something went wrong while trying to get pokemons'
@@ -182,7 +182,7 @@ describe('usePokemons', () => {
 
     try {
       await result.current.getPokemonStatsById('1');
-    } catch (err) {
+    } catch (err: any) {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toBe(
         'Something went wrong while trying to get a pokemon stats'
