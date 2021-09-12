@@ -4,10 +4,6 @@ export interface IPokemonsProviderProps {
   children: ReactNode;
 }
 
-export interface IPokemonDetailsCardTemplateProps {
-  pokemonId: string;
-}
-
 export interface IPokemonProps {
   pokemons: IPokemonEssentials[];
   pokemon: IPokemonParsedStats;
@@ -17,6 +13,37 @@ export interface IPokemonProps {
   setIsFirstLoad: Dispatch<SetStateAction<boolean>>;
   isLoading: boolean;
   renderCount: MutableRefObject<number>;
+}
+
+export interface ILoaderProps {
+  fullWidth?: boolean;
+}
+
+export interface IPokemonCardProps {
+  children: ReactNode;
+}
+
+export interface IPokemonCardArtworkProps {
+  artworkUrl: string;
+}
+
+export interface IPokemonDashboardCardArtworkProps
+  extends IPokemonCardArtworkProps {
+  dexIndex: number;
+}
+
+export interface IPokemonProfileCardStatsProps {
+  label: string;
+  value: string | number;
+}
+
+export interface IPokemonProfileCardStatsProgressProps
+  extends IPokemonProfileCardStatsProps {
+  colorScheme: string;
+}
+
+export interface IPokemonProfileCardTemplateProps {
+  pokemonId: string;
 }
 
 export interface IPokemonEssentials {

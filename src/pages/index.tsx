@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-import MenuBar from '@/components/shared/MenuBar';
-import PokemonsDashboardTemplate from '@/components/templates/PokemonsDashboard/PokemonsDashboardTemplate';
+import MenuBar from '@/components/organisms/MenuBar';
+import PokemonsDashboardTemplate from '@/components/templates/PokemonsDashboardTemplate';
 
 function Home() {
   return (

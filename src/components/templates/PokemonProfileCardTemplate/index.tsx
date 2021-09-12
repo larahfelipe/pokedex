@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useDisclosure, ScaleFade } from '@chakra-ui/react';
 
 import { usePokemons } from '@/hooks/usePokemons';
-import Loader from '@/components/shared/Loader';
-import PokemonDetailsCard from '@/components/base/PokemonDetailsCard';
-import { IPokemonDetailsCardTemplateProps } from '@/types';
+import Loader from '@/components/atoms/Loader';
+import PokemonProfileCard from '@/components/organisms/PokemonProfileCard';
+import { IPokemonProfileCardTemplateProps } from '@/types';
 
-function PokemonDetailsCardTemplate({
+function PokemonProfileCardTemplate({
   pokemonId
-}: IPokemonDetailsCardTemplateProps) {
+}: IPokemonProfileCardTemplateProps) {
   const { isOpen, onToggle } = useDisclosure();
   const { getPokemonStatsById, isLoading } = usePokemons();
 
@@ -25,9 +25,9 @@ function PokemonDetailsCardTemplate({
     <Loader fullWidth />
   ) : (
     <ScaleFade in={isOpen} initialScale={0.9}>
-      <PokemonDetailsCard />
+      <PokemonProfileCard />
     </ScaleFade>
   );
 }
 
-export default PokemonDetailsCardTemplate;
+export default PokemonProfileCardTemplate;

@@ -1,11 +1,12 @@
 import { useCallback, useEffect } from 'react';
+import { Flex } from '@chakra-ui/react';
 
 import { usePokemons } from '@/hooks/usePokemons';
-import Loader from '@/components/shared/Loader';
-import PokemonsDashboard from '@/components/base/PokemonsDashboard';
+import Loader from '@/components/atoms/Loader';
+import PokemonDashboardCard from '@/components/organisms/PokemonDashboardCard';
 
 function PokemonsDashboardTemplate() {
-  const { getPokemons, isFirstLoad } = usePokemons();
+  const { getPokemons, pokemons, isFirstLoad } = usePokemons();
 
   const hasReachedPageBottom = useCallback(() => {
     if (
@@ -26,7 +27,19 @@ function PokemonsDashboardTemplate() {
     }
   }, [isFirstLoad, getPokemons, hasReachedPageBottom]);
 
-  return isFirstLoad ? <Loader fullWidth /> : <PokemonsDashboard />;
+  return isFirstLoad ? (
+    <Loader fullWidth />
+  ) : (
+    <Flex pt="3rem" wrap="wrap" justify="center">
+      {pokemons.map((pokemon, index) => {
+        return (
+          <Flex w="20rem" m="1rem" key={index}>
+            <PokemonDashboardCard {...pokemon} />
+          </Flex>
+        );
+      })}
+    </Flex>
+  );
 }
 
 export default PokemonsDashboardTemplate;
