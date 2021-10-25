@@ -29,5 +29,11 @@ jobs:
       - name: Lint
         run: yarn lint
 
+      - name: Prettier
+        run: yarn prettier:check
+
+      - name: Type check
+        run: yarn typecheck
+
       - name: Test
         run: yarn test
