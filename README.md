@@ -11,6 +11,9 @@
   <a href="https://github.com/larafe1/pokedex/blob/master/LICENSE">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=FFC947">
   </a>
+  <a href="https://github.com/larafe1/pokedex/actions/workflows/ci.yml">
+    <img src="https://github.com/larafe1/pokedex/actions/workflows/ci.yml/badge.svg">
+  <a>
 </p>
 
 ## Overview
