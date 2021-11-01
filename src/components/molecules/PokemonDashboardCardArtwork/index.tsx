@@ -21,6 +21,7 @@ function PokemonDashboardCardArtwork({
           src={artworkUrl}
           alt=""
           maxW="75%"
+          display={isImgLoading ? 'none' : 'block'}
           onLoad={() => setIsImgLoading(false)}
         />
       </Link>
