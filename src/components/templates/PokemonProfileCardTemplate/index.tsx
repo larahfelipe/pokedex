@@ -20,14 +20,18 @@ function PokemonProfileCardTemplate({
         onToggle();
       }, 500);
     }
-  }, [getPokemonStatsById, pokemonId, isOpen, onToggle]);
+  }, [pokemonId]);
 
-  return isLoading ? (
-    <Loader fullWidth />
-  ) : (
-    <ScaleFade in={isOpen} initialScale={0.9}>
-      <PokemonProfileCard />
-    </ScaleFade>
+  return (
+    <>
+      {isLoading ? (
+        <Loader fullWidth />
+      ) : (
+        <ScaleFade in={isOpen} initialScale={0.9}>
+          <PokemonProfileCard />
+        </ScaleFade>
+      )}
+    </>
   );
 }
 

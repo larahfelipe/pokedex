@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Flex } from '@chakra-ui/react';
 
@@ -7,39 +7,47 @@ import PokemonDashboardCard from '@/components/organisms/PokemonDashboardCard';
 import { usePokemons } from '@/hooks/usePokemons';
 
 function PokemonsDashboardTemplate() {
-  const { getPokemons, pokemons, isFirstLoad } = usePokemons();
+  const {
+    isFirstRender,
+    isAtPageBottom,
+    setIsAtPageBottom,
+    getPokemons,
+    pokemons
+  } = usePokemons();
 
-  const hasReachedPageBottom = useCallback(() => {
+  const onReachPageBottom = () => {
     if (
       Math.ceil(window.innerHeight + window.scrollY) >=
       document.documentElement.scrollHeight
     ) {
+      console.log('Reached page bottom');
+      setIsAtPageBottom(true);
       getPokemons();
     }
-  }, [getPokemons]);
+  };
 
   useEffect(() => {
-    if (isFirstLoad) {
-      getPokemons();
-    } else {
-      window.addEventListener('scroll', hasReachedPageBottom);
+    window.addEventListener('scroll', onReachPageBottom);
 
-      return () => window.removeEventListener('scroll', hasReachedPageBottom);
-    }
-  }, [isFirstLoad, getPokemons, hasReachedPageBottom]);
+    return () => removeEventListener('scroll', onReachPageBottom);
+  }, [isAtPageBottom]);
 
-  return isFirstLoad ? (
-    <Loader fullWidth />
-  ) : (
-    <Flex pt="3rem" wrap="wrap" justify="center">
-      {pokemons.map((pokemon, index) => {
-        return (
-          <Flex w="20rem" m="1rem" key={index}>
-            <PokemonDashboardCard {...pokemon} />
-          </Flex>
-        );
-      })}
-    </Flex>
+  return (
+    <>
+      {isFirstRender ? (
+        <Loader fullWidth />
+      ) : (
+        <Flex pt="3rem" wrap="wrap" justify="center">
+          {pokemons.map((pokemon) => {
+            return (
+              <Flex w="20rem" m="1rem" key={pokemon.name}>
+                <PokemonDashboardCard {...pokemon} />
+              </Flex>
+            );
+          })}
+        </Flex>
+      )}
+    </>
   );
 }
 

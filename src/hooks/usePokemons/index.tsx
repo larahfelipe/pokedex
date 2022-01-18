@@ -1,88 +1,89 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useRef,
-  useCallback
-} from 'react';
+import { createContext, useContext, useState, useRef, useEffect } from 'react';
 
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import api from '@/services/api';
 import {
-  IPokemonEssentials,
-  IPokemonRawStats,
-  IPokemonParsedStats,
   IPokemonProps,
-  IPokemonsProviderProps
+  IPokemonsProviderProps,
+  IPokemonEssentials,
+  IPokemonParsedStats,
+  IPokemonRawStats
 } from '@/types';
 import parsePokemonData from '@/utils/parsePokemonData';
 
-export const PokemonsContext = createContext({} as IPokemonProps);
+const PokemonsContext = createContext({} as IPokemonProps);
 
 function PokemonsProvider({ children }: IPokemonsProviderProps) {
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [isAtPageBottom, setIsAtPageBottom] = useState(false);
   const [pokemons, setPokemons] = useState([] as IPokemonEssentials[]);
   const [pokemon, setPokemon] = useState({} as IPokemonParsedStats);
   const renderCount = useRef(50);
 
-  const getPokemons = useCallback(async () => {
-    setIsLoading(true);
-    await api
-      .get(`/pokemon?limit=${renderCount.current}`)
-      .then((res: AxiosResponse) => {
-        const pokemonsData: IPokemonEssentials[] = res.data.results;
-        setPokemons(pokemonsData);
-        renderCount.current += 50;
-      })
-      .catch((err: AxiosError) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setIsFirstLoad(false);
-      });
-  }, []);
+  const getPokemons = async () => {
+    try {
+      setIsLoading(true);
 
-  const getPokemonStatsById = useCallback(async (id: string | number) => {
-    setIsLoading(true);
-    await api
-      .get(`/pokemon/${id}`)
-      .then(async ({ data: baseData }: AxiosResponse<IPokemonRawStats>) => {
-        await api
-          .get(`/pokemon-species/${id}`)
-          .then(({ data: specieData }: AxiosResponse<IPokemonRawStats>) => {
-            const parsedPokemonStats = parsePokemonData({
-              ...baseData,
-              ...specieData
-            });
-            setPokemon(parsedPokemonStats);
-          })
-          .catch((err: AxiosError) => {
-            throw err;
-          });
-      })
-      .catch((err: AxiosError) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setIsFirstLoad(false);
+      const { data }: AxiosResponse = await api.get(
+        `/pokemon?limit=${renderCount.current}`
+      );
+      const pokemonsData: IPokemonEssentials[] = data.results;
+      console.log(pokemonsData);
+      // console.log('isFirstRenderState -> ', isFirstRender);
+      console.log(renderCount.current);
+      if (pokemons.length) {
+        renderCount.current += 50;
+        // console.log('AfterIsFirstRenderState -> ', isFirstRender);
+      }
+      setIsFirstRender(false);
+      setPokemons(pokemonsData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getPokemonStatsById = async (id: string | number) => {
+    try {
+      setIsLoading(true);
+      const { data: pokemonBaseData }: AxiosResponse<IPokemonRawStats> =
+        await api.get(`/pokemon/${id}`);
+      const { data: pokemonSpecieData }: AxiosResponse<IPokemonRawStats> =
+        await api.get(`/pokemon-species/${id}`);
+      const parsedPokemonData = parsePokemonData({
+        ...pokemonBaseData,
+        ...pokemonSpecieData
       });
+      setPokemon(parsedPokemonData);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log(renderCount.current);
+  });
+
+  useEffect(() => {
+    getPokemons();
   }, []);
 
   return (
     <PokemonsContext.Provider
       value={{
-        pokemons,
-        pokemon,
+        isLoading,
+        isFirstRender,
+        isAtPageBottom,
+        setIsAtPageBottom,
         getPokemons,
         getPokemonStatsById,
-        isFirstLoad,
-        setIsFirstLoad,
-        isLoading,
-        renderCount
+        pokemons,
+        pokemon
       }}
     >
       {children}
