@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useRef, useEffect } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useCallback
+} from 'react';
 
 import { AxiosResponse } from 'axios';
 
@@ -22,7 +29,7 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
   const [pokemon, setPokemon] = useState({} as IPokemonParsedStats);
   const renderCount = useRef(50);
 
-  const getPokemons = async () => {
+  const getPokemons = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -30,13 +37,9 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
         `/pokemon?limit=${renderCount.current}`
       );
       const pokemonsData: IPokemonEssentials[] = data.results;
-      console.log(pokemonsData);
-      // console.log('isFirstRenderState -> ', isFirstRender);
-      console.log(renderCount.current);
-      if (pokemons.length) {
-        renderCount.current += 50;
-        // console.log('AfterIsFirstRenderState -> ', isFirstRender);
-      }
+
+      renderCount.current = data.results.length + 50;
+
       setIsFirstRender(false);
       setPokemons(pokemonsData);
     } catch (err) {
@@ -44,7 +47,7 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const getPokemonStatsById = async (id: string | number) => {
     try {
@@ -64,14 +67,6 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    console.log(renderCount.current);
-  });
-
-  useEffect(() => {
-    getPokemons();
-  }, []);
 
   return (
     <PokemonsContext.Provider

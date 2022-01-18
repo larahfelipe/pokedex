@@ -1,36 +1,55 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { Flex } from '@chakra-ui/react';
+import debounce from 'lodash.debounce';
 
 import Loader from '@/components/atoms/Loader';
-import PokemonDashboardCard from '@/components/organisms/PokemonDashboardCard';
 import { usePokemons } from '@/hooks/usePokemons';
 
-function PokemonsDashboardTemplate() {
-  const {
-    isFirstRender,
-    isAtPageBottom,
-    setIsAtPageBottom,
-    getPokemons,
-    pokemons
-  } = usePokemons();
+import { PokemonList } from './components/PokemonList';
 
-  const onReachPageBottom = () => {
+function PokemonsDashboardTemplate() {
+  const { getPokemons, isFirstRender } = usePokemons();
+
+  const onReachPageBottom = useCallback(() => {
     if (
       Math.ceil(window.innerHeight + window.scrollY) >=
       document.documentElement.scrollHeight
     ) {
-      console.log('Reached page bottom');
-      setIsAtPageBottom(true);
       getPokemons();
     }
-  };
+  }, [getPokemons]);
 
   useEffect(() => {
-    window.addEventListener('scroll', onReachPageBottom);
+    let wait = false;
 
-    return () => removeEventListener('scroll', onReachPageBottom);
-  }, [isAtPageBottom]);
+    function infiniteScroll() {
+      const scroll = window.scrollY;
+      const height = document.body.offsetHeight - window.innerHeight;
+
+      if (scroll > height * 0.75 && !wait) {
+        getPokemons();
+
+        wait = true;
+
+        setTimeout(() => {
+          wait = false;
+        }, 500);
+      }
+    }
+
+    window.addEventListener('wheel', infiniteScroll);
+    window.addEventListener('scroll', infiniteScroll);
+
+    return () => {
+      window.removeEventListener('wheel', infiniteScroll);
+      window.removeEventListener('scroll', infiniteScroll);
+    };
+  }, [getPokemons]);
+
+  useEffect(() => {
+    getPokemons();
+  }, [getPokemons]);
 
   return (
     <>
@@ -38,13 +57,7 @@ function PokemonsDashboardTemplate() {
         <Loader fullWidth />
       ) : (
         <Flex pt="3rem" wrap="wrap" justify="center">
-          {pokemons.map((pokemon) => {
-            return (
-              <Flex w="20rem" m="1rem" key={pokemon.name}>
-                <PokemonDashboardCard {...pokemon} />
-              </Flex>
-            );
-          })}
+          <PokemonList />
         </Flex>
       )}
     </>
