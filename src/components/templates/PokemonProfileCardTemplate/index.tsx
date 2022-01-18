@@ -22,12 +22,16 @@ function PokemonProfileCardTemplate({
     }
   }, [getPokemonStatsById, pokemonId, isOpen, onToggle]);
 
-  return isLoading ? (
-    <Loader fullWidth />
-  ) : (
-    <ScaleFade in={isOpen} initialScale={0.9}>
-      <PokemonProfileCard />
-    </ScaleFade>
+  return (
+    <>
+      {isLoading ? (
+        <Loader fullWidth />
+      ) : (
+        <ScaleFade in={isOpen} initialScale={0.9}>
+          <PokemonProfileCard />
+        </ScaleFade>
+      )}
+    </>
   );
 }
 

@@ -1,46 +1,38 @@
 import { useCallback, useEffect } from 'react';
 
-import { Flex } from '@chakra-ui/react';
-
 import Loader from '@/components/atoms/Loader';
-import PokemonDashboardCard from '@/components/organisms/PokemonDashboardCard';
+import PokemonsList from '@/components/organisms/PokemonsList';
 import { usePokemons } from '@/hooks/usePokemons';
 
 function PokemonsDashboardTemplate() {
-  const { getPokemons, pokemons, isFirstLoad } = usePokemons();
+  const { getPokemons, isFirstRender } = usePokemons();
 
-  const hasReachedPageBottom = useCallback(() => {
-    if (
-      Math.ceil(window.innerHeight + window.scrollY) >=
-      document.documentElement.scrollHeight
-    ) {
+  const onApproxPageBottom = useCallback(() => {
+    let isWaiting = false;
+    const scrollPosition = window.scrollY;
+    const windowHeight = document.body.offsetHeight - window.innerHeight;
+
+    if (scrollPosition > windowHeight * 0.75 && !isWaiting) {
       getPokemons();
+      isWaiting = true;
+
+      setTimeout(() => {
+        isWaiting = false;
+      }, 500);
     }
   }, [getPokemons]);
 
   useEffect(() => {
-    if (isFirstLoad) {
-      getPokemons();
-    } else {
-      window.addEventListener('scroll', hasReachedPageBottom);
+    window.addEventListener('wheel', onApproxPageBottom);
+    window.addEventListener('scroll', onApproxPageBottom);
 
-      return () => window.removeEventListener('scroll', hasReachedPageBottom);
-    }
-  }, [isFirstLoad, getPokemons, hasReachedPageBottom]);
+    return () => {
+      window.removeEventListener('wheel', onApproxPageBottom);
+      window.removeEventListener('scroll', onApproxPageBottom);
+    };
+  }, [onApproxPageBottom]);
 
-  return isFirstLoad ? (
-    <Loader fullWidth />
-  ) : (
-    <Flex pt="3rem" wrap="wrap" justify="center">
-      {pokemons.map((pokemon, index) => {
-        return (
-          <Flex w="20rem" m="1rem" key={index}>
-            <PokemonDashboardCard {...pokemon} />
-          </Flex>
-        );
-      })}
-    </Flex>
-  );
+  return isFirstRender ? <Loader fullWidth /> : <PokemonsList />;
 }
 
 export default PokemonsDashboardTemplate;

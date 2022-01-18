@@ -1,18 +1,16 @@
-import { ReactNode, Dispatch, SetStateAction, MutableRefObject } from 'react';
+import { ReactNode } from 'react';
 
 export interface IPokemonsProviderProps {
   children: ReactNode;
 }
 
 export interface IPokemonProps {
-  pokemons: IPokemonEssentials[];
-  pokemon: IPokemonParsedStats;
+  isLoading: boolean;
+  isFirstRender: boolean;
   getPokemons: () => Promise<void>;
   getPokemonStatsById: (id: string | number) => Promise<void>;
-  isFirstLoad: boolean;
-  setIsFirstLoad: Dispatch<SetStateAction<boolean>>;
-  isLoading: boolean;
-  renderCount: MutableRefObject<number>;
+  pokemons: IPokemonEssentials[];
+  pokemon: IPokemonParsedStats;
 }
 
 export interface ILoaderProps {

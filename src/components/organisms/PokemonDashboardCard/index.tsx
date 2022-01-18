@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { Flex } from '@chakra-ui/react';
 import { usePalette } from 'react-palette';
 
@@ -19,31 +21,33 @@ function PokemonDashboardCard({ name, url }: IPokemonEssentials) {
   const { data: mainColor } = usePalette(artworkUrl);
 
   return (
-    <Flex
-      w="100%"
-      h="15rem"
-      m="38.5px"
-      direction="column"
-      border={`2px solid ${palette.lightGray}`}
-      borderRadius="8px"
-      bgGradient={`linear(to-b, ${mainColor.lightVibrant}, ${palette.lightGray})`}
-      cursor="pointer"
-      boxShadow="rgba(0, 0, 0, 0.15) 0px 2px 8px"
-      transition="all .2s"
-      _hover={{
-        boxShadow: 'rgba(0, 0, 0, 0.2) 0px 20px 30px',
-        transform: 'translateY(-6px)'
-      }}
-    >
-      <PokemonDashboardCardIndex>
-        {pokemonEssentials.dexIndex}
-      </PokemonDashboardCardIndex>
-      <PokemonDashboardCardArtwork {...pokemonEssentials} />
-      <PokemonDashboardCardName>
-        {pokemonEssentials.name}
-      </PokemonDashboardCardName>
+    <Flex w="20rem" m="1rem">
+      <Flex
+        w="100%"
+        h="15rem"
+        m="38.5px"
+        direction="column"
+        border={`2px solid ${palette.lightGray}`}
+        borderRadius="8px"
+        bgGradient={`linear(to-b, ${mainColor.lightVibrant}, ${palette.lightGray})`}
+        cursor="pointer"
+        boxShadow="rgba(0, 0, 0, 0.15) 0px 2px 8px"
+        transition="all .2s"
+        _hover={{
+          boxShadow: 'rgba(0, 0, 0, 0.2) 0px 20px 30px',
+          transform: 'translateY(-6px)'
+        }}
+      >
+        <PokemonDashboardCardIndex>
+          {pokemonEssentials.dexIndex}
+        </PokemonDashboardCardIndex>
+        <PokemonDashboardCardArtwork {...pokemonEssentials} />
+        <PokemonDashboardCardName>
+          {pokemonEssentials.name}
+        </PokemonDashboardCardName>
+      </Flex>
     </Flex>
   );
 }
 
-export default PokemonDashboardCard;
+export default memo(PokemonDashboardCard);
