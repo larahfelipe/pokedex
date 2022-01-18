@@ -20,7 +20,7 @@ function PokemonProfileCardTemplate({
         onToggle();
       }, 500);
     }
-  }, [pokemonId]);
+  }, [getPokemonStatsById, pokemonId, isOpen, onToggle]);
 
   return (
     <>

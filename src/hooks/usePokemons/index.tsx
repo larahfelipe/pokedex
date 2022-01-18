@@ -3,8 +3,8 @@ import {
   useContext,
   useState,
   useRef,
-  useEffect,
-  useCallback
+  useCallback,
+  useEffect
 } from 'react';
 
 import { AxiosResponse } from 'axios';
@@ -24,7 +24,6 @@ const PokemonsContext = createContext({} as IPokemonProps);
 function PokemonsProvider({ children }: IPokemonsProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [isAtPageBottom, setIsAtPageBottom] = useState(false);
   const [pokemons, setPokemons] = useState([] as IPokemonEssentials[]);
   const [pokemon, setPokemon] = useState({} as IPokemonParsedStats);
   const renderCount = useRef(50);
@@ -33,23 +32,21 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
     try {
       setIsLoading(true);
 
-      const { data }: AxiosResponse = await api.get(
-        `/pokemon?limit=${renderCount.current}`
-      );
-      const pokemonsData: IPokemonEssentials[] = data.results;
+      const { data }: AxiosResponse<{ results: IPokemonEssentials[] }> =
+        await api.get(`/pokemon?limit=${renderCount.current}`);
+      const pokemonsData = data.results;
 
-      renderCount.current = data.results.length + 50;
-
-      setIsFirstRender(false);
+      renderCount.current = pokemonsData.length + 50;
       setPokemons(pokemonsData);
     } catch (err) {
       console.error(err);
     } finally {
+      setIsFirstRender(false);
       setIsLoading(false);
     }
   }, []);
 
-  const getPokemonStatsById = async (id: string | number) => {
+  const getPokemonStatsById = useCallback(async (id: string | number) => {
     try {
       setIsLoading(true);
       const { data: pokemonBaseData }: AxiosResponse<IPokemonRawStats> =
@@ -66,15 +63,17 @@ function PokemonsProvider({ children }: IPokemonsProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    getPokemons();
+  }, [getPokemons]);
 
   return (
     <PokemonsContext.Provider
       value={{
         isLoading,
         isFirstRender,
-        isAtPageBottom,
-        setIsAtPageBottom,
         getPokemons,
         getPokemonStatsById,
         pokemons,

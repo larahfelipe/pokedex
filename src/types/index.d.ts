@@ -1,4 +1,4 @@
-import { ReactNode, Dispatch, SetStateAction } from 'react';
+import { ReactNode } from 'react';
 
 export interface IPokemonsProviderProps {
   children: ReactNode;
@@ -7,8 +7,6 @@ export interface IPokemonsProviderProps {
 export interface IPokemonProps {
   isLoading: boolean;
   isFirstRender: boolean;
-  isAtPageBottom: boolean;
-  setIsAtPageBottom: Dispatch<SetStateAction<boolean>>;
   getPokemons: () => Promise<void>;
   getPokemonStatsById: (id: string | number) => Promise<void>;
   pokemons: IPokemonEssentials[];
