@@ -3,18 +3,14 @@ import { useRouter } from 'next/router';
 
 import { Flex, Heading } from '@chakra-ui/react';
 
-import { usePokemons } from '@/hooks/usePokemons';
 import { palette } from '@/styles/theme';
 
 function PokedexButton() {
-  const router = useRouter();
-  const { renderCount, setIsFirstLoad } = usePokemons();
+  const { pathname, push } = useRouter();
 
   const handleClick = () => {
-    if (router.pathname !== '/') {
-      renderCount.current = renderCount.current - 50;
-      setIsFirstLoad(true);
-    }
+    if (pathname === '/') return;
+    push('/');
   };
 
   return (
@@ -34,7 +30,7 @@ function PokedexButton() {
         _hover={{
           borderColor: '#fff'
         }}
-        onClick={() => handleClick()}
+        onClick={handleClick}
       >
         <Heading as="h2" size="lg" color="#fff" fontFamily="Chakra Petch">
           Pokédex

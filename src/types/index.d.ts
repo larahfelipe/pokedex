@@ -1,26 +1,32 @@
-import { ReactNode, Dispatch, SetStateAction, MutableRefObject } from 'react';
+import { ReactNode } from 'react';
 
 export interface IPokemonsProviderProps {
   children: ReactNode;
 }
 
 export interface IPokemonProps {
-  pokemons: IPokemonEssentials[];
-  pokemon: IPokemonParsedStats;
+  isLoading: boolean;
+  isFirstRender: boolean;
   getPokemons: () => Promise<void>;
   getPokemonStatsById: (id: string | number) => Promise<void>;
-  isFirstLoad: boolean;
-  setIsFirstLoad: Dispatch<SetStateAction<boolean>>;
-  isLoading: boolean;
-  renderCount: MutableRefObject<number>;
+  pokemons: IPokemonEssentials[];
+  pokemon: IPokemonParsedStats;
+  hasReachedEnd: boolean;
 }
 
 export interface ILoaderProps {
   fullWidth?: boolean;
 }
 
+export interface ISkeletonProps {
+  w: string;
+  h: string;
+}
+
 export interface IPokemonCardProps {
-  children: ReactNode;
+  isArtworkBgLoading?: boolean;
+  name?: string;
+  dexIndex?: number;
 }
 
 export interface IPokemonCardArtworkProps {
@@ -30,6 +36,7 @@ export interface IPokemonCardArtworkProps {
 export interface IPokemonDashboardCardArtworkProps
   extends IPokemonCardArtworkProps {
   dexIndex: number;
+  isArtworkBgLoading: boolean;
 }
 
 export interface IPokemonProfileCardStatsProps {
