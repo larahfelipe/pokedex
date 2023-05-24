@@ -2,8 +2,8 @@
   "name": "pokedex",
   "version": "0.0.0",
   "private": true,
-  "author": "larafe1",
-  "repository": "https://github.com/larafe1/pokedex.git",
+  "author": "larahfelipe",
+  "repository": "https://github.com/larahfelipe/pokedex.git",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
